@@ -31,7 +31,7 @@ outputs:
         # These requirements can be found in configure.ac
         - atk >=1.41.0
         - glibmm >=2.48.0
-        - libsigcpp
+        - sigcpp-2.0
         - glib
       run:
         # TODO: remove this after atk, glibmm gets a run_exports PR
