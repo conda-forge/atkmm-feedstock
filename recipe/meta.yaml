@@ -11,7 +11,7 @@ source:
   sha256: 4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   run_exports:
     - atkmm-{{ abi_version }} >={{ version }}
@@ -31,7 +31,7 @@ outputs:
         # These requirements can be found in configure.ac
         - atk >=1.41.0
         - glibmm >=2.48.0
-        - libsigcpp
+        - sigcpp-2.0
         - glib
       run:
         # TODO: remove this after atk, glibmm gets a run_exports PR
