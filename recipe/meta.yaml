@@ -1,4 +1,4 @@
-{% set version = "2.28.0" %}
+{% set version = "2.29.1" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "1.6" %}
 
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://ftp.gnome.org/pub/GNOME/sources/atkmm/{{ major_minor }}/atkmm-{{ version }}.tar.xz
-  sha256: 4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a
+  sha256: 4140baa3c7991e8e0c518b17939c1a655e3e578bcdaf2fc0f2767e07853af545
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   run_exports:
     - atkmm-{{ abi_version }} >={{ version }}
@@ -55,7 +55,7 @@ about:
   home: https://developer.gnome.org/atkmm/
   license: LGPL-2.1-or-later
   license_file: COPYING
-  summary: "C++ bindings for atk"
+  summary: C++ bindings for atk
   dev_url: https://gitlab.gnome.org/GNOME/atkmm
 
 extra:
