@@ -10,7 +10,6 @@ set ^"MESON_OPTIONS=^
   --wrap-mode=nofallback ^
   --buildtype=release ^
   --backend=ninja ^
-  -Dbuild-examples=false ^
  ^"
 
 :: configure build using meson

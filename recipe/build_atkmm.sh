@@ -9,7 +9,6 @@ meson ${MESON_ARGS} \
     --buildtype=release \
     --prefix="${PREFIX}" \
     -Dlibdir=lib \
-    -Dbuild-examples=false \
     builddir .
 
 ninja -C builddir -j${CPU_COUNT}
