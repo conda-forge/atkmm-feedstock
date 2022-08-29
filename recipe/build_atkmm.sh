@@ -12,4 +12,5 @@ meson ${MESON_ARGS} \
     builddir .
 
 ninja -C builddir -j${CPU_COUNT}
+ninja -C builddir test
 ninja -C builddir install
