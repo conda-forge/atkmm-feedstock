@@ -1,4 +1,4 @@
-{% set version = "2.28.0" %}
+{% set version = "2.28.3" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "1.6" %}
 
@@ -7,18 +7,18 @@ package:
   version: {{ version }}
 
 source:
-  url: https://ftp.gnome.org/pub/GNOME/sources/atkmm/{{ major_minor }}/atkmm-{{ version }}.tar.xz
-  sha256: 4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a
+  url: https://download.gnome.org/sources/atkmm/{{ major_minor }}/atkmm-{{ version }}.tar.xz
+  sha256: 7c2088b486a909be8da2b18304e56c5f90884d1343c8da7367ea5cd3258b9969
 
 build:
-  number: 1
-  skip: true  # [win]
+  number: 0
   run_exports:
     - atkmm-{{ abi_version }} >={{ version }}
 
 outputs:
   - name: atkmm-{{ abi_version }}
-    script: build_atkmm.sh
+    script: build_atkmm.bat  # [win]
+    script: build_atkmm.sh   # [unix]
     build:
       run_exports:
         - atkmm-{{ abi_version }} >={{ version }}
@@ -26,22 +26,24 @@ outputs:
       build:
         - {{ compiler('cxx') }}
         - pkg-config
-        - make
+        - meson
+        - ninja
       host:
-        # These requirements can be found in configure.ac
         - atk >=1.41.0
-        - glibmm >=2.48.0
+        - glibmm-2.4
         - sigcpp-2.0
         - glib
-      run:
-        # TODO: remove this after atk, glibmm gets a run_exports PR
-        - {{ pin_compatible("atk") }}
-        - {{ pin_compatible("glibmm") }}
       run_constrained:
         - atkmm {{ version }}
     test:
+      requires:
+        - pkg-config
+        - glib
       commands:
-        - test -f ${PREFIX}/lib/libatkmm-{{ abi_version }}${SHLIB_EXT}
+        - test -f ${PREFIX}/lib/libatkmm-{{ abi_version }}${SHLIB_EXT}  # [unix]
+        - if not exist %LIBRARY_BIN%\\atkmm-vc142-{{ abi_version }}-1.dll exit 1  # [win]
+        - pkg-config --cflags atkmm-{{ abi_version }}
+        - pkg-config --exact-version {{ version }} atkmm-{{ abi_version }}
 
   - name: atkmm
     requirements:
@@ -49,7 +51,8 @@ outputs:
         - atkmm-{{ abi_version }}  {{ version }}
     test:
       commands:
-        - test -f ${PREFIX}/lib/pkg-config/atkmm-{{ abi_version }}.pc
+        - test -f ${PREFIX}/lib/pkgconfig/atkmm-{{ abi_version }}.pc  # [unix]
+        - if not exist %LIBRARY_LIB%\\pkgconfig\\atkmm-{{ abi_version }}.pc exit 1  # [win]
 
 about:
   home: https://developer.gnome.org/atkmm/
@@ -61,3 +64,4 @@ about:
 extra:
   recipe-maintainers:
     - isuruf
+    - tschoonj
