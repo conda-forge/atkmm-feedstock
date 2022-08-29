@@ -41,6 +41,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libatkmm-{{ abi_version }}${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_BIN%\\atkmm-vc142-{{ abi_version }}-1.dll exit 1  # [win]
+        - pkg-config --cflags atkmm-{{ abi_version }}
         - pkg-config --exact-version {{ version }} atkmm-{{ abi_version }}
 
   - name: atkmm
